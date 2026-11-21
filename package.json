@@ -1,0 +1,14 @@
+{
+  "name": "tea-blind-review-consistency",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "茶叶盲评数据：评员偏差、批内一致性与样杯批号更正（仅使用 Node.js 内置模块）",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

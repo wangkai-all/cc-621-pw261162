@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>茶叶盲评一致性分析</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>茶叶盲评一致性分析</h1>
+      <p class="subtitle">成对评员偏差 · 批内一致性 · 样杯批号更正（本地样例数据，不接外部服务）</p>
+    </div>
+    <div class="topbar-right">
+      <span id="revision-badge" class="badge" data-evidence-result="revision-badge" title="当前映射已应用的更正次数">更正次数：0</span>
+      <button id="btn-reset" class="btn btn-ghost" type="button">重置为初始样例</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel controls-panel">
+      <div class="control-block">
+        <h2>① 分析原盲评数据</h2>
+        <div class="control-row">
+          <label>偏差分析方式
+            <select id="bias-method">
+              <option value="paired">成对分数（同杯共识差）</option>
+              <option value="round-adjusted">按盲评轮次调整</option>
+            </select>
+          </label>
+          <button id="btn-analyze" class="btn btn-primary" type="button">分析原盲评数据</button>
+        </div>
+        <p class="hint">同杯同评员的多轮打分先按 (杯, 评员) 折叠为重复测量，不作为独立样本。</p>
+      </div>
+
+      <div class="control-block">
+        <h2>② 更正一只样杯</h2>
+        <div class="control-row">
+          <label>样杯
+            <select id="correction-cup"></select>
+          </label>
+          <label>更正后批号
+            <select id="correction-batch"></select>
+          </label>
+          <label class="grow">更正原因（可选）
+            <input id="correction-reason" type="text" maxlength="120" placeholder="例如：事后核查发现匿名杯贴错批号" />
+          </label>
+          <button id="btn-correct" class="btn btn-warn" type="button">更正一只样杯</button>
+        </div>
+        <p class="hint">更正只改“杯→批号”映射，不删除任何原始评分；修订前后的受影响评分会并排展示。</p>
+      </div>
+
+      <div class="control-block">
+        <h2>③ 查看评级一致性</h2>
+        <div class="control-row">
+          <button id="btn-ratings" class="btn btn-secondary" type="button">查看评级一致性</button>
+        </div>
+        <p class="hint">以评员对一只杯的折叠后众数评级比较；评级并列记为分歧，单评员的杯标记样本不足。</p>
+      </div>
+    </section>
+
+    <section id="error-box" class="error-box" hidden></section>
+
+    <section class="panel result-panel" id="bias-panel" hidden>
+      <h2>评员个人偏差 <span class="tag" id="bias-method-tag"></span></h2>
+      <div id="bias-result" data-evidence-result="bias" class="result-region"></div>
+    </section>
+
+    <section class="panel result-panel" id="batch-panel" hidden>
+      <h2>批内一致性（含 ICC 与评员重复性）</h2>
+      <div id="batch-result" data-evidence-result="batch-consistency" class="result-region"></div>
+    </section>
+
+    <section class="panel result-panel" id="rating-panel" hidden>
+      <h2>评级一致性</h2>
+      <div id="rating-result" data-evidence-result="rating-agreement" class="result-region"></div>
+    </section>
+
+    <section class="panel result-panel" id="correction-panel" hidden>
+      <h2>样杯更正对照（修订前后）</h2>
+      <div id="correction-result" data-evidence-result="correction" class="result-region"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Node.js 内置模块实现 · 绑定 127.0.0.1 · 数据仅存于服务内存</span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
